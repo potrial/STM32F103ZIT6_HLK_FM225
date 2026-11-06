@@ -1,0 +1,14 @@
+{
+	"files": [
+		{
+			"path": "Core/Src/main.c",
+			"bookmarks": [
+				{
+					"line": 220,
+					"column": 11,
+					"label": "while (1)"
+				}
+			]
+		}
+	]
+}
