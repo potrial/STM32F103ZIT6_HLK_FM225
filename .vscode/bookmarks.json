@@ -7,6 +7,26 @@
 					"line": 220,
 					"column": 11,
 					"label": "while (1)"
+				},
+				{
+					"line": 362,
+					"column": 0,
+					"label": "注册人脸"
+				},
+				{
+					"line": 367,
+					"column": 0,
+					"label": "识别人脸"
+				}
+			]
+		},
+		{
+			"path": "Core/Src/fm22x.c",
+			"bookmarks": [
+				{
+					"line": 217,
+					"column": 0,
+					"label": "处理接收到的完整帧"
 				}
 			]
 		}

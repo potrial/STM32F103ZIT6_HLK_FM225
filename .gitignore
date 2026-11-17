@@ -1,5 +1,6 @@
 # Keil build files
-MDK-ARM/rlsb/
+MDK-ARM/rlsb/*
+!MDK-ARM/rlsb/*.hex
 MDK-ARM/*.dep
 MDK-ARM/*.crf
 MDK-ARM/*.d
@@ -9,7 +10,6 @@ MDK-ARM/*.htm
 MDK-ARM/*.lnp
 MDK-ARM/*.map
 MDK-ARM/*.axf
-MDK-ARM/*.hex
 MDK-ARM/*.sct
 MDK-ARM/build_log.txt
 

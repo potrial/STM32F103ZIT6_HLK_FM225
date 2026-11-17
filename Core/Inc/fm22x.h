@@ -16,6 +16,7 @@
 #define MID_DELUSER                 0x20
 #define MID_DELALL                  0x21
 #define MID_GETUSERINFO             0x22
+#define MID_GET_ALL_USERID          0x24
 #define MID_ENROLL_SINGLE           0x1D
 #define MID_GET_VERSION             0x30
 
