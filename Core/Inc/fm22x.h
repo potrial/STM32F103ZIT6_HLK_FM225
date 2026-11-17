@@ -16,9 +16,14 @@
 #define MID_DELUSER                 0x20
 #define MID_DELALL                  0x21
 #define MID_GETUSERINFO             0x22
+#define MID_FACE_RESET              0x23
 #define MID_GET_ALL_USERID          0x24
 #define MID_ENROLL_SINGLE           0x1D
 #define MID_GET_VERSION             0x30
+
+/* MID_NOTE notification IDs */
+#define NID_READY                   0x00
+#define NID_FACE_STATE              0x01
 
 /* 人脸方向定义 */
 #define FACE_DIRECTION_UP           0x10

@@ -129,7 +129,7 @@ void FM22x_Enroll(uint8_t admin, uint8_t face_dir, uint8_t timeout)
 /* ============ 清除录入状态 ============ */
 void FM22x_FaceReset(void)
 {
-    uint8_t cmd[] = {0xEF, 0xAA, 0x23, 0x00, 0x00, 0x00};
+    uint8_t cmd[] = {0xEF, 0xAA, MID_FACE_RESET, 0x00, 0x00, 0x00};
     cmd[5] = FM22x_CalculateParity(&cmd[2], 3);
     FM22x_SendCommand(cmd, sizeof(cmd));
 }
@@ -137,7 +137,7 @@ void FM22x_FaceReset(void)
 /* ============ 获取所有已注册用户 ============ */
 void FM22x_GetAllUser(void)
 {
-    uint8_t cmd[] = {0xEF, 0xAA, 0x24, 0x00, 0x00, 0x00};
+    uint8_t cmd[] = {0xEF, 0xAA, MID_GET_ALL_USERID, 0x00, 0x00, 0x00};
     cmd[5] = FM22x_CalculateParity(&cmd[2], 3);
     FM22x_SendCommand(cmd, sizeof(cmd));
 }
@@ -249,7 +249,7 @@ static void ProcessReceivedFrame(uint8_t msgid, uint16_t size, uint8_t* data)
                 }
 
                 /* 获取用户数量 + 列表 */
-                if(cmd == 0x24 && result == MR_SUCCESS && size >= 3)
+                if(cmd == MID_GET_ALL_USERID && result == MR_SUCCESS && size >= 3)
                 {
                     g_user_count = data[2];
                     if (size >= (uint16_t)(3 + g_user_count * 2)) {
@@ -275,9 +275,9 @@ static void ProcessReceivedFrame(uint8_t msgid, uint16_t size, uint8_t* data)
             if(size >= 1)
             {
                 uint8_t nid = data[0];
-                if(nid == 0x00)
+                if(nid == NID_READY)
                     module_ready = true;
-                else if(nid == 0x01)
+                else if(nid == NID_FACE_STATE)
                     ParseFaceState(data, size);
             }
             break;
