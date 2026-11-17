@@ -98,7 +98,9 @@ void FM22x_EnrollSingle(uint8_t admin, uint8_t face_dir, uint8_t timeout)
     FM22x_SendCommand(cmd, idx);
 }
 
-/* ============ 交互式录入（标准方法，多角度采集） ============ */
+/** ============ 交互式录入（标准方法，多角度采集） ============
+ * @param face_dir 不一定支持组合，待测试验证
+ */
 void FM22x_Enroll(uint8_t admin, uint8_t face_dir, uint8_t timeout)
 {
     uint8_t cmd[6 + USER_NAME_SIZE + 2];  // 40 bytes
@@ -169,23 +171,32 @@ volatile uint8_t g_user_count = 0;
 volatile uint16_t g_user_ids[50] = {0};
 volatile uint8_t  g_user_id_count = 0;
 
-/* ============ 解析人脸状态 ============ */
+/** ============ 解析人脸状态 ============
+ * 
+ * eg
+ * 发送：
+ * efaa1d0023000000000000000000000000000000000000000000000000000000000000000000000a34
+ * 
+ * 应答：
+ * efaa010011010000a2005e0052014e01fcff07000000f5
+ * efaa0100110100009a005c0052015001fcff0900ffffdf
+ * efaa010011010000a8005a0062015c01f6ff0d00ffffd9
+ * efaa0000051d0000010118
+ */
 static void ParseFaceState(uint8_t* data, uint16_t size)
 {
     if(size < 17) return;
 
-    /* 实际固件的字段顺序（与官方样例代码一致，已验证数据自洽）：
-       left(int16) top(int16) right(int16) bottom(int16)
-       yaw(int16) pitch(int16) roll(int16) state(uint8) spare(uint8)
-       全部小端序 */
-    int16_t left   = (int16_t)(data[1] | (data[2] << 8));
-    int16_t top    = (int16_t)(data[3] | (data[4] << 8));
-    int16_t right  = (int16_t)(data[5] | (data[6] << 8));
-    int16_t bottom = (int16_t)(data[7] | (data[8] << 8));
-    int16_t yaw    = (int16_t)(data[9] | (data[10] << 8));
-    int16_t pitch  = (int16_t)(data[11] | (data[12] << 8));
-    int16_t roll   = (int16_t)(data[13] | (data[14] << 8));
-    int16_t state  = data[15];  /* 实际是 1 字节 */
+    /* data[0] 为 NID_FACE_STATE，后续字段均为小端 int16：
+       state, left, top, right, bottom, yaw, pitch, roll */
+    int16_t state  = (int16_t)(data[1] | (data[2] << 8));
+    int16_t left   = (int16_t)(data[3] | (data[4] << 8));
+    int16_t top    = (int16_t)(data[5] | (data[6] << 8));
+    int16_t right  = (int16_t)(data[7] | (data[8] << 8));
+    int16_t bottom = (int16_t)(data[9] | (data[10] << 8));
+    int16_t yaw    = (int16_t)(data[11] | (data[12] << 8));
+    int16_t pitch  = (int16_t)(data[13] | (data[14] << 8));
+    int16_t roll   = (int16_t)(data[15] | (data[16] << 8));
 
     /* 存储最新人脸状态，供 main 循环 LCD 显示 */
     g_face_left   = left;
